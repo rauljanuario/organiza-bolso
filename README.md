@@ -73,12 +73,13 @@ Esta documentação descreve todos os endpoints disponíveis na API do sistema d
 
 ### 1. Autenticação
 
-Responsável pelo gerenciamento de acesso dos usuários.
+Responsável pelo registro de novas contas, autenticação e recuperação de dados do perfil do usuário logado.
 
 | Método | Endpoint | Corpo da Requisição (JSON) | Status de Sucesso | Descrição |
 | :--- | :--- | :--- | :--- | :--- |
 | `POST` | `/api/auth/register` | `{ "name": "", "email": "", "password": "" }` | `201 Created` | Cria uma nova conta de usuário. |
 | `POST` | `/api/auth/login` | `{ "email": "", "password": "" }` | `200 OK` | Autentica o usuário e retorna o Token JWT. |
+| `GET`  | `/api/users/me`      | Vazio | `200 OK` | Retorna os dados públicos do usuário logado (nome e e-mail) com base no token enviado no cabeçalho. |
 
 ---
 
