@@ -90,8 +90,8 @@ Gerencia as categorias personalizadas do usuário logado.
 | Método | Endpoint | Corpo da Requisição (JSON) | Status de Sucesso | Descrição |
 | :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/api/categories` | Vazio | `200 OK` | Lista todas as categorias cadastradas pelo usuário. |
-| `POST` | `/api/categories` | `{ "name": "", "type": "INCOME" | "EXPENSE" }` | `201 Created` | Cria uma nova categoria. |
-| `PUT` | `/api/categories/{id}`| `{ "name": "", "type": "INCOME" | "EXPENSE" }` | `200 OK` | Atualiza os dados de uma categoria existente. |
+| `POST` | `/api/categories` | `{ "name": "", "type": "INCOME" / "EXPENSE" }` | `201 Created` | Cria uma nova categoria. |
+| `PUT` | `/api/categories/{id}`| `{ "name": "", "type": "INCOME" / "EXPENSE" }` | `200 OK` | Atualiza os dados de uma categoria existente. |
 | `DELETE`| `/api/categories/{id}`| Vazio | `204 No Content` | Remove uma categoria (transações vinculadas terão a categoria definida como nula). |
 
 ---
@@ -116,8 +116,8 @@ Gerencia os registros financeiros, permitindo listagem e inserção manual.
 | Método | Endpoint | Parâmetros da URL / Body | Status de Sucesso | Descrição |
 | :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/api/transactions` | `?month=08&year=2026` | `200 OK` | Lista as transações do mês especificado. |
-| `POST` | `/api/transactions` | `{ "rawDescription": "", "amount": 0.0, "transactionDate": "YYYY-MM-DD", "categoryId": 1 }` | `201 Created` | Insere uma transação manualmente. |
-| `PUT` | `/api/transactions/{id}`| `{ "rawDescription": "", "amount": 0.0, "transactionDate": "YYYY-MM-DD", "categoryId": 1 }` | `200 OK` | Atualiza uma transação (define `manually_categorized = true` internamente). |
+| `POST` | `/api/transactions` | `{ "description": "", "amount": 0.0, "transactionDate": "YYYY-MM-DD", "categoryId": 1 }` | `201 Created` | Insere uma transação manualmente. |
+| `PUT` | `/api/transactions/{id}`| `{ "description": "", "amount": 0.0, "transactionDate": "YYYY-MM-DD", "categoryId": 1 }` | `200 OK` | Atualiza uma transação (define `manually_categorized = true` internamente). |
 | `DELETE`| `/api/transactions/{id}`| Vazio | `204 No Content` | Remove uma transação específica. |
 
 ---
