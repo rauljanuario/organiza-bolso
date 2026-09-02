@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS statements_imports (
 CREATE TABLE IF NOT EXISTS transactions (
 
     id BIGSERIAL PRIMARY KEY,
-    raw_description VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
     amount DECIMAL(12,2) NOT NULL,
     transaction_date DATE NOT NULL,
     category_id BIGINT,
