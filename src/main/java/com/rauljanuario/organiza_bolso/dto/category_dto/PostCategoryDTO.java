@@ -4,9 +4,9 @@ import com.rauljanuario.organiza_bolso.enums.CategoryType;
 
 public record PostCategoryDTO(
 
+        Long id,
         String name,
         CategoryType type
-
 
 ) {
 }
