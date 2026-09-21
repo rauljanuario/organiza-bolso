@@ -3,6 +3,7 @@ package com.rauljanuario.organiza_bolso.controller;
 import com.rauljanuario.organiza_bolso.dto.category_dto.GetCategoryDTO;
 import com.rauljanuario.organiza_bolso.dto.category_dto.PostCategoryDTO;
 import com.rauljanuario.organiza_bolso.service.CategoryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,7 @@ public class CategoryController {
 
         GetCategoryDTO result = categoryService.saveCategory(data).getBody();
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
     }
 
