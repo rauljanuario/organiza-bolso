@@ -2,6 +2,7 @@ package com.rauljanuario.organiza_bolso.service;
 
 import com.rauljanuario.organiza_bolso.dto.category_dto.GetCategoryDTO;
 import com.rauljanuario.organiza_bolso.dto.category_dto.PostCategoryDTO;
+import com.rauljanuario.organiza_bolso.exception.UserNotFoundException;
 import com.rauljanuario.organiza_bolso.model.Category;
 import com.rauljanuario.organiza_bolso.model.User;
 import com.rauljanuario.organiza_bolso.repository.CategoryRepository;
@@ -23,7 +24,7 @@ public class CategoryService {
     public GetCategoryDTO saveCategory(PostCategoryDTO data) {
 
         User user = userRepository.findById(data.id())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         var category = new Category();
         category.setUser(user);
