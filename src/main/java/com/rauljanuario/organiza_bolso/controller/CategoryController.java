@@ -23,7 +23,7 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<GetCategoryDTO> createCategory(@RequestBody PostCategoryDTO data) {
 
-        GetCategoryDTO result = categoryService.saveCategory(data).getBody();
+        GetCategoryDTO result = categoryService.saveCategory(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
 

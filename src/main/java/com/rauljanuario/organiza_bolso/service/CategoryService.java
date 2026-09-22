@@ -6,7 +6,6 @@ import com.rauljanuario.organiza_bolso.model.Category;
 import com.rauljanuario.organiza_bolso.model.User;
 import com.rauljanuario.organiza_bolso.repository.CategoryRepository;
 import com.rauljanuario.organiza_bolso.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -21,7 +20,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public ResponseEntity<GetCategoryDTO> saveCategory(PostCategoryDTO data) {
+    public GetCategoryDTO saveCategory(PostCategoryDTO data) {
 
         User user = userRepository.findById(data.id())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -34,7 +33,7 @@ public class CategoryService {
 
         Category saved = categoryRepository.save(category);
 
-        return ResponseEntity.ok(new GetCategoryDTO(saved.getId(), saved.getName(), saved.getType()));
+        return new GetCategoryDTO(saved.getId(), saved.getName(), saved.getType());
     }
 
 
