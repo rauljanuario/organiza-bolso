@@ -32,7 +32,7 @@ class CategoryControllerTest {
         //ARRANGE
         PostCategoryDTO dtoFictEntry = new PostCategoryDTO(1L, "Almoço", CategoryType.EXPENSE);
 
-        ResponseEntity<GetCategoryDTO> dtoFictExit = ResponseEntity.status(HttpStatus.CREATED).body(new GetCategoryDTO(1L, "Almoço", CategoryType.EXPENSE));
+        GetCategoryDTO dtoFictExit = new GetCategoryDTO(1L, "Almoço", CategoryType.EXPENSE);
 
         Mockito.when(categoryService.saveCategory(dtoFictEntry)).thenReturn(dtoFictExit);
 
