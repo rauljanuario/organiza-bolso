@@ -8,6 +8,8 @@ import com.rauljanuario.organiza_bolso.model.User;
 import com.rauljanuario.organiza_bolso.repository.CategoryRepository;
 import com.rauljanuario.organiza_bolso.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @Service
@@ -23,7 +25,8 @@ public class CategoryService {
 
     public GetCategoryDTO saveCategory(PostCategoryDTO data) {
 
-        User user = userRepository.findById(data.id())
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         var category = new Category();
