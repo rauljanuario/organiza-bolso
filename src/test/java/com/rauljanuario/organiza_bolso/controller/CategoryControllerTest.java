@@ -14,6 +14,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 class CategoryControllerTest {
 
@@ -43,5 +45,24 @@ class CategoryControllerTest {
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(dtoFictEntry.name(), result.getBody().name());
 
+    }
+
+    @Test
+    @DisplayName("Return all categories")
+    void getCategories_ReturnsAllCategories() {
+
+        //ARRANGE
+        GetCategoryDTO dtoFictEntry = new GetCategoryDTO(1L, "Almoço", CategoryType.EXPENSE);
+        GetCategoryDTO dtoFictEntry2 = new GetCategoryDTO(2L, "Salário", CategoryType.INCOME);
+
+        Mockito.when(categoryService.getAllCategories()).thenReturn(List.of(dtoFictEntry, dtoFictEntry2));
+
+        //ACT
+        var result = categoryController.getCategories();
+
+        //ASSERTIONS
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertNotNull(result.getBody());
+        Assertions.assertEquals(2, result.getBody().size());
     }
 }
