@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
+
 
 @Service
 public class CategoryService {
@@ -40,5 +42,17 @@ public class CategoryService {
         return new GetCategoryDTO(saved.getId(), saved.getName(), saved.getType());
     }
 
+    public List<GetCategoryDTO> getAllCategories() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        List<Category> categories = categoryRepository.findByUser_Id(user.getId());
+
+        return categories.stream()
+                .map(category -> new GetCategoryDTO(category.getId(), category.getName(), category.getType()))
+                .toList();
+    }
 
 }

@@ -5,10 +5,9 @@ import com.rauljanuario.organiza_bolso.dto.category_dto.PostCategoryDTO;
 import com.rauljanuario.organiza_bolso.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -19,6 +18,12 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
+
+    @GetMapping()
+    public ResponseEntity<List<GetCategoryDTO>> getCategories() {
+        return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
 
     @PostMapping
     public ResponseEntity<GetCategoryDTO> createCategory(@RequestBody PostCategoryDTO data) {
