@@ -27,6 +27,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional
     public GetCategoryDTO saveCategory(PostCategoryDTO data) {
 
         User user = getAuthenticatedUser();
@@ -42,6 +43,7 @@ public class CategoryService {
         return new GetCategoryDTO(saved.getId(), saved.getName(), saved.getType());
     }
 
+    @Transactional(readOnly = true)
     public List<GetCategoryDTO> getAllCategories() {
 
         User user = getAuthenticatedUser();
@@ -53,6 +55,7 @@ public class CategoryService {
                 .toList();
     }
 
+    @Transactional
     public PostCategoryDTO updateCategory(Long id, PostCategoryDTO data) {
         User user = getAuthenticatedUser();
 
