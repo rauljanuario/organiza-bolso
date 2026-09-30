@@ -65,4 +65,22 @@ class CategoryControllerTest {
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(2, result.getBody().size());
     }
+    @Test
+    @DisplayName("Update a category")
+    void updateCategory_WithValidData_ReturnsUpdatedCategory() {
+        //ARRANGE
+        Long categoryId = 1L;
+        PostCategoryDTO dtoFictEntry = new PostCategoryDTO(categoryId, "Almoço", CategoryType.EXPENSE);
+        PostCategoryDTO dtoFictExit = new PostCategoryDTO(categoryId, "Jantar", CategoryType.EXPENSE);
+
+        Mockito.when(categoryService.updateCategory(categoryId, dtoFictEntry)).thenReturn(dtoFictExit);
+
+        //ACT
+        var result = categoryController.updateCategory(categoryId, dtoFictEntry);
+
+        //ASSERTIONS
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertNotNull(result.getBody());
+        Assertions.assertEquals(dtoFictExit.name(), result.getBody().name());
+    }
 }
