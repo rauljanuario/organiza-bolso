@@ -11,6 +11,7 @@ import com.rauljanuario.organiza_bolso.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -64,6 +65,16 @@ public class CategoryService {
         categoryRepository.save(category);
 
         return new PostCategoryDTO(category.getId(), category.getName(), category.getType());
+    }
+
+    @Transactional
+    public void deleteCategory(Long id) {
+        User user = getAuthenticatedUser();
+
+        Category category = categoryRepository.findByIdAndUser_Id(id, user.getId())
+                .orElseThrow(() -> new CategoryNotFound("Category not found"));
+
+        categoryRepository.delete(category);
     }
 
     private User getAuthenticatedUser() {
