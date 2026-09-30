@@ -34,7 +34,7 @@ Esse é um sistema de controle financeiro com importação de arquivos CSV e OFX
 ## Como Executar
 
 ### Pré-requisitos
-* JDK 17 ou superior
+* JDK 25 ou superior
 * Maven instalado
 * PostgreSQL ativo (local)
 
