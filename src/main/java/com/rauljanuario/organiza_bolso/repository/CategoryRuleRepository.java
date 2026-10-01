@@ -9,4 +9,6 @@ public interface CategoryRuleRepository extends JpaRepository<CategoryRule, Long
 
     List<CategoryRule> findByCategoryId(Long categoryId);
 
+    List<CategoryRule> findByCategory_User_Id(Long userId);
+
 }

@@ -36,9 +36,11 @@ public class CategoryRuleService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GetCategoryRuleDTO> getAllCategoriesRules() {
-        return categoryRuleRepository.findAll().stream()
+        User user = getAuthenticatedUser();
+
+        return categoryRuleRepository.findByCategory_User_Id(user.getId()).stream()
                 .map(categoryRule -> new GetCategoryRuleDTO(
                         categoryRule.getId(),
                         categoryRule.getKeyword(),
