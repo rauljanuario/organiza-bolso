@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 class CategoryRuleControllerTest {
 
@@ -21,6 +23,23 @@ class CategoryRuleControllerTest {
 
     @Mock
     private CategoryRuleService categoryRuleService;
+
+    @Test
+    @DisplayName("Return all category rules")
+    void getCategories_Rules_ReturnsAllCategoryRules() {
+        GetCategoryRuleDTO rule1 = new GetCategoryRuleDTO(1L, "mercado", 1L, 1);
+        GetCategoryRuleDTO rule2 = new GetCategoryRuleDTO(2L, "supermercado", 2L, 2);
+
+        Mockito.when(categoryRuleService.getAllCategoriesRules()).thenReturn(List.of(rule1, rule2));
+
+        var result = categoryRuleController.getCategoriesRules();
+
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertNotNull(result.getBody());
+        Assertions.assertEquals(2, result.getBody().size());
+        Assertions.assertEquals(rule1, result.getBody().get(0));
+        Assertions.assertEquals(rule2, result.getBody().get(1));
+    }
 
     @Test
     @DisplayName("Return a new category rule")
