@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryRuleService {
@@ -32,6 +34,18 @@ public class CategoryRuleService {
         this.categoryRuleRepository = categoryRuleRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+    }
+
+    @Transactional
+    public List<GetCategoryRuleDTO> getAllCategoriesRules() {
+        return categoryRuleRepository.findAll().stream()
+                .map(categoryRule -> new GetCategoryRuleDTO(
+                        categoryRule.getId(),
+                        categoryRule.getKeyword(),
+                        categoryRule.getCategory().getId(),
+                        categoryRule.getPriority()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Transactional

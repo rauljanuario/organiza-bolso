@@ -5,10 +5,9 @@ import com.rauljanuario.organiza_bolso.dto.category_rule_dto.PostCategoryRuleDTO
 import com.rauljanuario.organiza_bolso.service.CategoryRuleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/category-rules")
@@ -19,6 +18,12 @@ public class CategoryRuleController {
     public CategoryRuleController(CategoryRuleService categoryRuleService) {
         this.categoryRuleService = categoryRuleService;
     }
+
+    @GetMapping
+    public ResponseEntity<List<GetCategoryRuleDTO>> getCategoriesRules() {
+        return ResponseEntity.ok(categoryRuleService.getAllCategoriesRules());
+    }
+
 
     @PostMapping
     public ResponseEntity<GetCategoryRuleDTO> createCategoryRule(@RequestBody PostCategoryRuleDTO data) {
