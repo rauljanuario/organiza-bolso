@@ -28,13 +28,17 @@ class CategoryRuleControllerTest {
     @Test
     @DisplayName("Return all category rules")
     void getCategories_Rules_ReturnsAllCategoryRules() {
+
+        // ARRANGE
         GetCategoryRuleDTO rule1 = new GetCategoryRuleDTO(1L, "mercado", 1L, 1);
         GetCategoryRuleDTO rule2 = new GetCategoryRuleDTO(2L, "supermercado", 2L, 2);
 
         Mockito.when(categoryRuleService.getAllCategoriesRules()).thenReturn(List.of(rule1, rule2));
 
+        // ACT
         var result = categoryRuleController.getCategoriesRules();
 
+        // ASSERTIONS
         Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(2, result.getBody().size());
@@ -45,13 +49,17 @@ class CategoryRuleControllerTest {
     @Test
     @DisplayName("Return a new category rule")
     void createCategoryRule_WithValidData_ReturnsNewCategoryRule() {
+
+        // ARRANGE
         PostCategoryRuleDTO input = new PostCategoryRuleDTO(null, "mercado", 1L, 1);
         GetCategoryRuleDTO output = new GetCategoryRuleDTO(1L, "mercado", 1L, 1);
 
         Mockito.when(categoryRuleService.saveCategoryRule(input)).thenReturn(output);
 
+        // ACT
         var result = categoryRuleController.createCategoryRule(input);
 
+        // ASSERTIONS
         Assertions.assertEquals(HttpStatus.CREATED, result.getStatusCode());
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(output, result.getBody());
@@ -60,6 +68,8 @@ class CategoryRuleControllerTest {
     @Test
     @DisplayName("Update an existing category rule")
     void updateCategoryRule_WithValidData_ReturnsUpdatedCategoryRule() {
+
+        // ARRANGE
         Long categoryRuleId = 1L;
         PostCategoryRuleDTO input = new PostCategoryRuleDTO(null, "mercado", 1L, 1);
         GetCategoryRuleDTO serviceInput = new GetCategoryRuleDTO(categoryRuleId, "mercado", 1L, 1);
@@ -67,8 +77,10 @@ class CategoryRuleControllerTest {
 
         Mockito.when(categoryRuleService.updateCategoryRule(serviceInput)).thenReturn(output);
 
+        // ACT
         var result = categoryRuleController.updateCategoryRule(categoryRuleId, input);
 
+        // ASSERTIONS
         Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(output, result.getBody());
@@ -78,10 +90,14 @@ class CategoryRuleControllerTest {
     @Test
     @DisplayName("Delete an existing category rule")
     void deleteCategoryRule_WithValidId_ReturnsNoContent() {
+
+        // ARRANGE
         Long categoryRuleId = 1L;
 
+        // ACT
         var result = categoryRuleController.deleteCategoryRule(categoryRuleId);
 
+        // ASSERTIONS
         Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
         Mockito.verify(categoryRuleService).deleteCategoryRule(categoryRuleId);
     }
