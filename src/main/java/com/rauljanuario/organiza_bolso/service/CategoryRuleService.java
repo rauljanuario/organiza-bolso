@@ -73,6 +73,30 @@ public class CategoryRuleService {
         );
     }
 
+    @Transactional
+    public GetCategoryRuleDTO updateCategoryRule(GetCategoryRuleDTO data) {
+        User user = getAuthenticatedUser();
+
+        CategoryRule categoryRule = categoryRuleRepository.findById(data.id())
+                .orElseThrow(() -> new CategoryNotFound("Category rule not found"));
+
+        if (!categoryRule.getCategory().getUser().getId().equals(user.getId())) {
+            throw new CategoryNotFound("Category rule not found for this user");
+        }
+
+        categoryRule.setKeyword(data.keyword());
+        categoryRule.setPriority(data.priority());
+
+        CategoryRule updated = categoryRuleRepository.save(categoryRule);
+
+        return new GetCategoryRuleDTO(
+                updated.getId(),
+                updated.getKeyword(),
+                updated.getCategory().getId(),
+                updated.getPriority()
+        );
+    }
+
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

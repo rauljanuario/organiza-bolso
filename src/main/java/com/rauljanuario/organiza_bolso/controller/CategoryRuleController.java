@@ -30,4 +30,10 @@ public class CategoryRuleController {
         GetCategoryRuleDTO result = categoryRuleService.saveCategoryRule(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
+    @PutMapping
+    public ResponseEntity<GetCategoryRuleDTO> updateCategoryRule(@RequestBody GetCategoryRuleDTO data) {
+        GetCategoryRuleDTO result = categoryRuleService.updateCategoryRule(data);
+        return ResponseEntity.ok(result);
+    }
 }
