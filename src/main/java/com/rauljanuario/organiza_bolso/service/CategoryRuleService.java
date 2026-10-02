@@ -2,7 +2,7 @@ package com.rauljanuario.organiza_bolso.service;
 
 import com.rauljanuario.organiza_bolso.dto.category_rule_dto.GetCategoryRuleDTO;
 import com.rauljanuario.organiza_bolso.dto.category_rule_dto.PostCategoryRuleDTO;
-import com.rauljanuario.organiza_bolso.exception.CategoryNotFound;
+import com.rauljanuario.organiza_bolso.exception.CategoryRuleNotFound;
 import com.rauljanuario.organiza_bolso.exception.UserNotFoundException;
 import com.rauljanuario.organiza_bolso.model.Category;
 import com.rauljanuario.organiza_bolso.model.CategoryRule;
@@ -55,7 +55,7 @@ public class CategoryRuleService {
         User user = getAuthenticatedUser();
 
         Category category = categoryRepository.findByIdAndUser_Id(data.categoryId(), user.getId())
-                .orElseThrow(() -> new CategoryNotFound("Category not found"));
+                .orElseThrow(() -> new CategoryRuleNotFound("Category rule not found"));
 
         CategoryRule categoryRule = new CategoryRule();
         categoryRule.setKeyword(data.keyword());
@@ -78,10 +78,10 @@ public class CategoryRuleService {
         User user = getAuthenticatedUser();
 
         CategoryRule categoryRule = categoryRuleRepository.findById(data.id())
-                .orElseThrow(() -> new CategoryNotFound("Category rule not found"));
+                .orElseThrow(() -> new CategoryRuleNotFound("Category rule not found"));
 
         if (!categoryRule.getCategory().getUser().getId().equals(user.getId())) {
-            throw new CategoryNotFound("Category rule not found for this user");
+            throw new CategoryRuleNotFound("Category rule not found for this user");
         }
 
         categoryRule.setKeyword(data.keyword());
@@ -102,10 +102,10 @@ public class CategoryRuleService {
         User user = getAuthenticatedUser();
 
         CategoryRule categoryRule = categoryRuleRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFound("Category rule not found"));
+                .orElseThrow(() -> new CategoryRuleNotFound("Category rule not found"));
 
         if (!categoryRule.getCategory().getUser().getId().equals(user.getId())) {
-            throw new CategoryNotFound("Category rule not found for this user");
+            throw new CategoryRuleNotFound("Category rule not found for this user");
         }
 
         categoryRuleRepository.delete(categoryRule);
