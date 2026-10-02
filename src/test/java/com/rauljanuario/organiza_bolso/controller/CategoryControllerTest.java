@@ -83,4 +83,19 @@ class CategoryControllerTest {
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(dtoFictExit.name(), result.getBody().name());
     }
+
+    @Test
+    @DisplayName("Delete a category")
+    void deleteCategory_WithValidId_ReturnsNoContent() {
+
+        //ARRANGE
+        Long categoryId = 1L;
+
+        //ACT
+        var result = categoryController.deleteCategory(categoryId);
+
+        //ASSERTIONS
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        Mockito.verify(categoryService).deleteCategory(categoryId);
+    }
 }
