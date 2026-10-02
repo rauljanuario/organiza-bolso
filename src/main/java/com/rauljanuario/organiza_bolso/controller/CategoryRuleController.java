@@ -36,4 +36,10 @@ public class CategoryRuleController {
         GetCategoryRuleDTO result = categoryRuleService.updateCategoryRule(data);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/id")
+    public ResponseEntity<Void> deleteCategoryRule(@PathVariable Long id) {
+        categoryRuleService.deleteCategoryRule(id);
+        return ResponseEntity.noContent().build();
+    }
 }

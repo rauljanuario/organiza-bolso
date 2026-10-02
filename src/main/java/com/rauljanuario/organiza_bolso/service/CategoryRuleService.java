@@ -97,6 +97,20 @@ public class CategoryRuleService {
         );
     }
 
+    @Transactional
+    public void deleteCategoryRule(Long id) {
+        User user = getAuthenticatedUser();
+
+        CategoryRule categoryRule = categoryRuleRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFound("Category rule not found"));
+
+        if (!categoryRule.getCategory().getUser().getId().equals(user.getId())) {
+            throw new CategoryNotFound("Category rule not found for this user");
+        }
+
+        categoryRuleRepository.delete(categoryRule);
+    }
+
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
