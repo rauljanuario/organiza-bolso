@@ -31,13 +31,19 @@ public class CategoryRuleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping
-    public ResponseEntity<GetCategoryRuleDTO> updateCategoryRule(@RequestBody GetCategoryRuleDTO data) {
-        GetCategoryRuleDTO result = categoryRuleService.updateCategoryRule(data);
+    @PutMapping("/{id}")
+    public ResponseEntity<GetCategoryRuleDTO> updateCategoryRule(@PathVariable Long id, @RequestBody PostCategoryRuleDTO data) {
+        GetCategoryRuleDTO updateData = new GetCategoryRuleDTO(
+                id,
+                data.keyword(),
+                data.categoryId(),
+                data.priority()
+        );
+        GetCategoryRuleDTO result = categoryRuleService.updateCategoryRule(updateData);
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategoryRule(@PathVariable Long id) {
         categoryRuleService.deleteCategoryRule(id);
         return ResponseEntity.noContent().build();
