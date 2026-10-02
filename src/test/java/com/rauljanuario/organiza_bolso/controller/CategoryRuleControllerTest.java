@@ -60,16 +60,19 @@ class CategoryRuleControllerTest {
     @Test
     @DisplayName("Update an existing category rule")
     void updateCategoryRule_WithValidData_ReturnsUpdatedCategoryRule() {
-        GetCategoryRuleDTO input = new GetCategoryRuleDTO(1L, "mercado", 1L, 1);
+        Long categoryRuleId = 1L;
+        PostCategoryRuleDTO input = new PostCategoryRuleDTO(null, "mercado", 1L, 1);
+        GetCategoryRuleDTO serviceInput = new GetCategoryRuleDTO(categoryRuleId, "mercado", 1L, 1);
         GetCategoryRuleDTO output = new GetCategoryRuleDTO(1L, "mercado", 1L, 2);
 
-        Mockito.when(categoryRuleService.updateCategoryRule(input)).thenReturn(output);
+        Mockito.when(categoryRuleService.updateCategoryRule(serviceInput)).thenReturn(output);
 
-        var result = categoryRuleController.updateCategoryRule(input);
+        var result = categoryRuleController.updateCategoryRule(categoryRuleId, input);
 
         Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(output, result.getBody());
+        Mockito.verify(categoryRuleService).updateCategoryRule(serviceInput);
     }
 
     @Test
