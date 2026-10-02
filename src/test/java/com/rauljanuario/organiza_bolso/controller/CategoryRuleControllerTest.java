@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -69,5 +70,17 @@ class CategoryRuleControllerTest {
         Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
         Assertions.assertNotNull(result.getBody());
         Assertions.assertEquals(output, result.getBody());
+    }
+
+    @Test
+    @DisplayName("Delete an existing category rule")
+    void deleteCategoryRule_WithValidId_ReturnsNoContent() {
+        Long idToDelete = 1L;
+
+        categoryRuleController.deleteCategoryRule(idToDelete);
+        var result = categoryRuleController.deleteCategoryRule(idToDelete);
+
+        Mockito.verify(categoryRuleService).deleteCategoryRule(idToDelete);
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
     }
 }
