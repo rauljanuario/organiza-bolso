@@ -27,15 +27,15 @@ public class Transaction {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @Column(name = "transaction_date", nullable = false)
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "statement_import_id", nullable = false)
+    @JoinColumn(name = "import_id")
     private StatementImport statementImport;
 
     @ManyToOne(fetch = FetchType.LAZY)
