@@ -1,9 +1,13 @@
 package com.rauljanuario.organiza_bolso.service;
 
+import com.rauljanuario.organiza_bolso.dto.transaction_dto.PostTransactionDTO;
 import com.rauljanuario.organiza_bolso.dto.transaction_dto.GetTransactionDTO;
+import com.rauljanuario.organiza_bolso.exception.CategoryNotFound;
 import com.rauljanuario.organiza_bolso.exception.UserNotFoundException;
+import com.rauljanuario.organiza_bolso.model.Category;
 import com.rauljanuario.organiza_bolso.model.Transaction;
 import com.rauljanuario.organiza_bolso.model.User;
+import com.rauljanuario.organiza_bolso.repository.CategoryRepository;
 import com.rauljanuario.organiza_bolso.repository.TransactionRepository;
 import com.rauljanuario.organiza_bolso.repository.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -19,11 +23,32 @@ import java.util.List;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public TransactionService(TransactionRepository transactionRepository, CategoryRepository categoryRepository,
+                               UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
+        this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+    }
+
+    @Transactional
+    public GetTransactionDTO saveTransaction(PostTransactionDTO data) {
+        User user = getAuthenticatedUser();
+        Category category = categoryRepository.findByIdAndUser_Id(data.categoryId(), user.getId())
+                .orElseThrow(() -> new CategoryNotFound("Category not found"));
+
+        Transaction transaction = new Transaction();
+        transaction.setDescription(data.description());
+        transaction.setAmount(data.amount());
+        transaction.setDate(data.transactionDate().atStartOfDay());
+        transaction.setCategory(category);
+        transaction.setUser(user);
+        transaction.setManuallyCategorized(true);
+        transaction.setCreatedAt(LocalDateTime.now());
+
+        return toDTO(transactionRepository.save(transaction));
     }
 
     @Transactional(readOnly = true)
