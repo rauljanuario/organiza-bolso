@@ -99,4 +99,39 @@ class TransactionControllerTest {
         Assertions.assertEquals(output, result.getBody());
         Mockito.verify(transactionService).saveTransaction(input);
     }
+
+    @Test
+    @DisplayName("Update an existing transaction")
+    void updateTransaction_WithValidData_ReturnsUpdatedTransaction() {
+
+        // ARRANGE
+        Long transactionId = 1L;
+        PostTransactionDTO input = new PostTransactionDTO(
+                transactionId,
+                "Almoço atualizado",
+                new BigDecimal("40.00"),
+                LocalDate.of(2026, 10, 2),
+                1L
+        );
+        GetTransactionDTO output = new GetTransactionDTO(
+                transactionId,
+                input.description(),
+                input.amount(),
+                input.transactionDate().atStartOfDay(),
+                input.categoryId(),
+                "Alimentação",
+                true
+        );
+
+        Mockito.when(transactionService.updateTransaction(transactionId, input)).thenReturn(output);
+
+        // ACT
+        var result = transactionController.updateTransaction(transactionId, input);
+
+        // ASSERTIONS
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertNotNull(result.getBody());
+        Assertions.assertEquals(output, result.getBody());
+        Mockito.verify(transactionService).updateTransaction(transactionId, input);
+    }
 }
