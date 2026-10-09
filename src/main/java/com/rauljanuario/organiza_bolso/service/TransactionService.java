@@ -3,6 +3,7 @@ package com.rauljanuario.organiza_bolso.service;
 import com.rauljanuario.organiza_bolso.dto.transaction_dto.PostTransactionDTO;
 import com.rauljanuario.organiza_bolso.dto.transaction_dto.GetTransactionDTO;
 import com.rauljanuario.organiza_bolso.exception.CategoryNotFound;
+import com.rauljanuario.organiza_bolso.exception.TransactionNotFound;
 import com.rauljanuario.organiza_bolso.exception.UserNotFoundException;
 import com.rauljanuario.organiza_bolso.model.Category;
 import com.rauljanuario.organiza_bolso.model.Transaction;
@@ -47,6 +48,23 @@ public class TransactionService {
         transaction.setUser(user);
         transaction.setManuallyCategorized(true);
         transaction.setCreatedAt(LocalDateTime.now());
+
+        return toDTO(transactionRepository.save(transaction));
+    }
+
+    @Transactional
+    public GetTransactionDTO updateTransaction(Long id, PostTransactionDTO data) {
+        User user = getAuthenticatedUser();
+        Transaction transaction = transactionRepository.findByIdAndUser_Id(id, user.getId())
+                .orElseThrow(() -> new TransactionNotFound("Transaction not found"));
+        Category category = categoryRepository.findByIdAndUser_Id(data.categoryId(), user.getId())
+                .orElseThrow(() -> new CategoryNotFound("Category not found"));
+
+        transaction.setDescription(data.description());
+        transaction.setAmount(data.amount());
+        transaction.setDate(data.transactionDate().atStartOfDay());
+        transaction.setCategory(category);
+        transaction.setManuallyCategorized(true);
 
         return toDTO(transactionRepository.save(transaction));
     }
