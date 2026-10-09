@@ -134,4 +134,19 @@ class TransactionControllerTest {
         Assertions.assertEquals(output, result.getBody());
         Mockito.verify(transactionService).updateTransaction(transactionId, input);
     }
+
+    @Test
+    @DisplayName("Delete an existing transaction")
+    void deleteTransaction_WithValidId_ReturnsNoContent() {
+
+        // ARRANGE
+        Long transactionId = 1L;
+
+        // ACT
+        var result = transactionController.deleteTransaction(transactionId);
+
+        // ASSERTIONS
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        Mockito.verify(transactionService).deleteTransaction(transactionId);
+    }
 }

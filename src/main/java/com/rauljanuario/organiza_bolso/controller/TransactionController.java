@@ -5,6 +5,7 @@ import com.rauljanuario.organiza_bolso.dto.transaction_dto.PostTransactionDTO;
 import com.rauljanuario.organiza_bolso.service.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,5 +46,11 @@ public class TransactionController {
             @RequestBody PostTransactionDTO data
     ) {
         return ResponseEntity.ok(transactionService.updateTransaction(id, data));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.noContent().build();
     }
 }

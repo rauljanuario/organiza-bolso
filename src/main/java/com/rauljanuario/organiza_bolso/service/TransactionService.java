@@ -69,6 +69,15 @@ public class TransactionService {
         return toDTO(transactionRepository.save(transaction));
     }
 
+    @Transactional
+    public void deleteTransaction(Long id) {
+        User user = getAuthenticatedUser();
+        Transaction transaction = transactionRepository.findByIdAndUser_Id(id, user.getId())
+                .orElseThrow(() -> new TransactionNotFound("Transaction not found"));
+
+        transactionRepository.delete(transaction);
+    }
+
     @Transactional(readOnly = true)
     public List<GetTransactionDTO> getTransactions(int month, int year) {
         User user = getAuthenticatedUser();
