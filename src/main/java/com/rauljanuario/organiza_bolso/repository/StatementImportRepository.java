@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface StatementImportRepository extends JpaRepository<StatementImport, Long> {
 
-    Optional<StatementImport> findByCategoryIdAndUserId(Long categoryId, Long userId);
+    Optional<StatementImport> findByIdAndUser_Id(Long id, Long userId);
 
 }

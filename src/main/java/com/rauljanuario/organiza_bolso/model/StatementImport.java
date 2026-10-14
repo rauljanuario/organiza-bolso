@@ -8,7 +8,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "statement_imports")
+@Table(name = "statements_imports")
 @Getter
 @Setter
 @AllArgsConstructor
