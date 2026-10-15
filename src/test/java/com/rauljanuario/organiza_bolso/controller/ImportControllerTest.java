@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ImportControllerTest {
@@ -48,5 +49,26 @@ class ImportControllerTest {
         Assertions.assertEquals(HttpStatus.CREATED, result.getStatusCode());
         Assertions.assertEquals(output, result.getBody());
         Mockito.verify(importService).importStatement(file);
+    }
+
+    @Test
+    void getImports_ReturnsOk() {
+        List<ImportResponseDTO> output = List.of(
+                new ImportResponseDTO(
+                        1L,
+                        "statement.csv",
+                        FormatType.CSV,
+                        StatusType.COMPLETED,
+                        LocalDateTime.now(),
+                        1
+                )
+        );
+        Mockito.when(importService.getImports()).thenReturn(output);
+
+        var result = importController.getImports();
+
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertEquals(output, result.getBody());
+        Mockito.verify(importService).getImports();
     }
 }
