@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/imports")
 public class ImportController {
@@ -20,5 +22,10 @@ public class ImportController {
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<ImportResponseDTO> importStatement(@RequestPart("file") MultipartFile file) {
         return ResponseEntity.status(HttpStatus.CREATED).body(importService.importStatement(file));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ImportResponseDTO>> getImports() {
+        return ResponseEntity.ok(importService.getImports());
     }
 }
