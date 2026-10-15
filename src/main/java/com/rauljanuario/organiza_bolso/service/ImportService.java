@@ -99,6 +99,21 @@ public class ImportService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public List<ImportResponseDTO> getImports() {
+        User user = getAuthenticatedUser();
+        return statementImportRepository.findByUser_IdOrderByImportedAtDesc(user.getId()).stream()
+                .map(statementImport -> new ImportResponseDTO(
+                        statementImport.getId(),
+                        statementImport.getFileName(),
+                        statementImport.getFormat(),
+                        statementImport.getStatus(),
+                        statementImport.getImportedAt(),
+                        transactionRepository.countByStatementImport_Id(statementImport.getId())
+                ))
+                .toList();
+    }
+
     private Transaction toTransaction(
             ImportedTransaction item,
             User user,

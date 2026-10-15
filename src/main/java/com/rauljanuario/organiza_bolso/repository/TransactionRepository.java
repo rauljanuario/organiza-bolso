@@ -17,4 +17,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     );
 
     Optional<Transaction> findByIdAndUser_Id(Long id, Long userId);
+
+    int countByStatementImport_Id(Long statementImportId);
 }
