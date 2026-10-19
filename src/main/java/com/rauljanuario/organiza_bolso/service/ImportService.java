@@ -4,6 +4,7 @@ import com.rauljanuario.organiza_bolso.dto.import_dto.ImportResponseDTO;
 import com.rauljanuario.organiza_bolso.enums.FormatType;
 import com.rauljanuario.organiza_bolso.enums.StatusType;
 import com.rauljanuario.organiza_bolso.exception.ImportException;
+import com.rauljanuario.organiza_bolso.exception.ImportNotFound;
 import com.rauljanuario.organiza_bolso.exception.UserNotFoundException;
 import com.rauljanuario.organiza_bolso.model.CategoryRule;
 import com.rauljanuario.organiza_bolso.model.StatementImport;
@@ -112,6 +113,15 @@ public class ImportService {
                         transactionRepository.countByStatementImport_Id(statementImport.getId())
                 ))
                 .toList();
+    }
+
+    @Transactional
+    public void deleteImport(Long id) {
+        User user = getAuthenticatedUser();
+        StatementImport statementImport = statementImportRepository.findByIdAndUser_Id(id, user.getId())
+                .orElseThrow(() -> new ImportNotFound("Import not found"));
+
+        statementImportRepository.delete(statementImport);
     }
 
     private Transaction toTransaction(

@@ -28,4 +28,10 @@ public class ImportController {
     public ResponseEntity<List<ImportResponseDTO>> getImports() {
         return ResponseEntity.ok(importService.getImports());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteImport(@PathVariable Long id) {
+        importService.deleteImport(id);
+        return ResponseEntity.noContent().build();
+    }
 }
