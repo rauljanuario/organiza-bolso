@@ -71,4 +71,14 @@ class ImportControllerTest {
         Assertions.assertEquals(output, result.getBody());
         Mockito.verify(importService).getImports();
     }
+
+    @Test
+    void deleteImport_WithValidId_ReturnsNoContent() {
+        Long importId = 1L;
+
+        var result = importController.deleteImport(importId);
+
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        Mockito.verify(importService).deleteImport(importId);
+    }
 }
