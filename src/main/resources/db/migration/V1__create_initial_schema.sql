@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     id BIGSERIAL PRIMARY KEY,
     description VARCHAR(255) NOT NULL,
     amount DECIMAL(12,2) NOT NULL,
-    transaction_date DATE NOT NULL,
+    transaction_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     category_id BIGINT,
     import_id BIGINT,
     user_id BIGINT NOT NULL,
