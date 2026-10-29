@@ -15,11 +15,6 @@ Esse é um sistema de controle financeiro com importação de arquivos CSV e OFX
 * **JUnit 5**
 * **Mockito**
 * **Flyway**
-
-### Front-End
-* **HTML 5**
-* **CSS 3**
-* **JavaScript**
   
 ---
 
